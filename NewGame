@@ -1,0 +1,309 @@
+#include <stdio.h>
+#include <windows.h>
+#include <conio.h>
+
+#define Up 72
+#define Down 80
+#define Lelf 75
+#define Right 77
+#define Esc 27
+
+void ScanM(char *name)
+{
+    name--;
+    do
+    {
+        name++;
+        scanf("%c", name);
+
+    } while (*name != '\n');
+
+    *name = '\0';
+}
+
+void clear()
+{
+    system("cls");
+}
+
+void gotoxy(double x, int y)
+{
+    COORD coord;
+    coord.X = 4 * x + 44;
+    coord.Y = 2 * y + 5;
+    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
+}
+
+void RotatePieces(char pieces[8][8], int j, int i)
+{
+    char turn = pieces[j][i];
+    char opponent = (turn == 'B') ? 'W' : 'B';
+    int row = 1;
+    int column = 1;
+    for (int k = 0; k < 8; k++)
+    {
+        int x = j;
+        int y = i;
+        int temp = 0;
+        do
+        {
+            x += row;
+            y += column;
+            temp++;
+
+        } while (pieces[x][y] == opponent && 0 <= x && x <= 7 && 0 <= y && y <= 7);
+
+        if (pieces[x][y] == turn && temp != 1)
+        {
+            x -= row;
+            y -= column;
+            do
+            {
+                pieces[x][y] = turn;
+                x -= row;
+                y -= column;
+
+            } while (pieces[x][y] == opponent);
+        }
+
+        if (k < 2)
+        {
+            row--;
+        }
+        else if (k < 4)
+        {
+            column--;
+        }
+        else if (k < 6)
+        {
+            row++;
+        }
+        else
+        {
+            column++;
+        }
+    }
+}
+
+void LegalMoves(char pieces[8][8], char turn)
+{
+    for (int i = 0; i < 8; i++)
+    {
+        for (int j = 0; j < 8; j++)
+        {
+            if (pieces[j][i] == 'o')
+            {
+                pieces[j][i] = ' ';
+            }
+        }
+    }
+    char opponent = (turn == 'B') ? 'W' : 'B';
+    for (int i = 0; i < 8; i++)
+    {
+        for (int j = 0; j < 8; j++)
+        {
+            if (pieces[j][i] == turn)
+            {
+                int row = 1;
+                int column = 1;
+
+                for (int k = 0; k < 8; k++)
+                {
+                    int x = j;
+                    int y = i;
+                    int temp = 0;
+                    do
+                    {
+                        x += row;
+                        y += column;
+                        temp++;
+
+                    } while (pieces[x][y] == opponent && 0 <= x && x <= 7 && 0 <= y && y <= 7);
+
+                    if (pieces[x][y] != turn && temp != 1)
+                    {
+                        pieces[x][y] = 'o';
+                    }
+
+                    if (k < 2)
+                    {
+                        row--;
+                    }
+                    else if (k < 4)
+                    {
+                        column--;
+                    }
+                    else if (k < 6)
+                    {
+                        row++;
+                    }
+                    else
+                    {
+                        column++;
+                    }
+                }
+            }
+        }
+    }
+}
+
+void PrintPieces(char pieces[8][8])
+{
+    for (int i = 0; i < 8; i++)
+    {
+        for (int j = 0; j < 8; j++)
+        {
+            gotoxy(j, i);
+            if (pieces[j][i] == 'B')
+            {
+                SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 1);
+                printf("%c", pieces[j][i]);
+            }
+            else if (pieces[j][i] == 'W')
+            {
+                SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 12);
+                printf("%c", pieces[j][i]);
+            }
+            else
+            {
+                SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 6);
+                printf("%c", pieces[j][i]);
+            }
+        }
+    }
+}
+
+int NewGame()
+{
+    char NamePlayer1[40];
+    char NamePlayer2[40];
+
+    SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 10);
+    gotoxy(1, 1);
+    printf("Name Player One: \n");
+    gotoxy(1, 2);
+    printf("Name Player Two: ");
+
+    gotoxy(5.25, 1);
+    ScanM(NamePlayer1);
+    gotoxy(5.25, 2);
+    ScanM(NamePlayer2);
+    clear();
+
+    printf("\n\n\n");
+    printf("\t\t\t\t\t    A   B   C   D   E   F   G   H  \n"
+           "\t\t\t\t\t  +---+---+---+---+---+---+---+---+\n"
+           "\t\t\t\t\t1 |   |   |   |   |   |   |   |   |\n"
+           "\t\t\t\t\t  +---+---+---+---+---+---+---+---+\n"
+           "\t\t\t\t\t2 |   |   |   |   |   |   |   |   |\n"
+           "\t\t\t\t\t  +---+---+---+---+---+---+---+---+\n"
+           "\t\t\t\t\t3 |   |   |   |   |   |   |   |   |\n"
+           "\t\t\t\t\t  +---+---+---+---+---+---+---+---+\n"
+           "\t\t\t\t\t4 |   |   |   |   |   |   |   |   |\n"
+           "\t\t\t\t\t  +---+---+---+---+---+---+---+---+\n"
+           "\t\t\t\t\t5 |   |   |   |   |   |   |   |   |\n"
+           "\t\t\t\t\t  +---+---+---+---+---+---+---+---+\n"
+           "\t\t\t\t\t6 |   |   |   |   |   |   |   |   |\n"
+           "\t\t\t\t\t  +---+---+---+---+---+---+---+---+\n"
+           "\t\t\t\t\t7 |   |   |   |   |   |   |   |   |\n"
+           "\t\t\t\t\t  +---+---+---+---+---+---+---+---+\n"
+           "\t\t\t\t\t8 |   |   |   |   |   |   |   |   |\n"
+           "\t\t\t\t\t  +---+---+---+---+---+---+---+---+\n");
+
+    char pieces[8][8] = {0};
+
+    //-------------------------------------------------------------------
+
+    SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 1);
+    gotoxy(4, 3);
+    pieces[4][3] = 'B';
+    printf("%c", pieces[4][3]);
+
+    gotoxy(3, 4);
+    pieces[3][4] = 'B';
+    printf("%c", pieces[3][4]);
+
+    SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 12);
+    gotoxy(3, 3);
+    pieces[3][3] = 'W';
+    printf("%c", pieces[3][3]);
+
+    gotoxy(4, 4);
+    pieces[4][4] = 'W';
+    printf("%c", pieces[4][4]);
+
+    //-------------------------------------------------------------------
+
+    SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 6);
+    gotoxy(3, 2);
+    pieces[3][2] = 'o';
+    printf("%c", pieces[3][2]);
+
+    gotoxy(2, 3);
+    pieces[2][3] = 'o';
+    printf("%c", pieces[2][3]);
+
+    gotoxy(5, 4);
+    pieces[5][4] = 'o';
+    printf("%c", pieces[5][4]);
+
+    gotoxy(4, 5);
+    pieces[4][5] = 'o';
+    printf("%c", pieces[4][5]);
+
+    //-------------------------------------------------------------------
+
+    int x = 3, y = 2;
+    gotoxy(x, y);
+
+    char turn = 'B';
+    char movement;
+    do
+    {
+        movement = getch();
+        if (movement == Down && y < 7)
+        {
+            gotoxy(x, ++y);
+        }
+        else if (movement == Up && 0 < y)
+        {
+            gotoxy(x, --y);
+        }
+        else if (movement == Right && x < 7)
+        {
+            gotoxy(++x, y);
+        }
+        else if (movement == Lelf && 0 < x)
+        {
+            gotoxy(--x, y);
+        }
+
+        //-------------------------------------------------------------------
+
+        else if (movement == '\r' && pieces[x][y] == 'o')
+        {
+            if (turn == 'B')
+            {
+                pieces[x][y] = 'B';
+                turn = 'W';
+            }
+            else if (turn == 'W')
+            {
+                pieces[x][y] = 'W';
+                turn = 'B';
+            }
+
+            RotatePieces(pieces, x, y);
+
+            LegalMoves(pieces, turn);
+
+            PrintPieces(pieces);
+
+            gotoxy(x, y);
+        }
+
+    } while (movement != Esc);
+    gotoxy(0, 8);
+
+    return 0;
+}

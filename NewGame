@@ -147,21 +147,6 @@ void LegalMoves(char pieces[8][8], char turn)
     }
 }
 
-int CheckTurn(char pieces[8][8], char turn)
-{
-    for (int i = 0; i < 8; i++)
-    {
-        for (int j = 0; j < 8; j++)
-        {
-            if (pieces[j][i] == 'o')
-            {
-                return 0;
-            }
-        }
-    }
-    return 1;
-}
-
 void PrintPieces(char pieces[8][8])
 {
     for (int i = 0; i < 8; i++)
@@ -186,6 +171,21 @@ void PrintPieces(char pieces[8][8])
             }
         }
     }
+}
+
+int CheckTurn(char pieces[8][8], char turn)
+{
+    for (int i = 0; i < 8; i++)
+    {
+        for (int j = 0; j < 8; j++)
+        {
+            if (pieces[j][i] == 'o')
+            {
+                return 0;
+            }
+        }
+    }
+    return 1;
 }
 
 int NewGame()
@@ -312,25 +312,31 @@ int NewGame()
 
             LegalMoves(pieces, turn);
 
+            PrintPieces(pieces);
+
             int end = 0;
             while (CheckTurn(pieces, turn))
             {
                 turn = (turn == 'B') ? 'W' : 'B';
+
                 LegalMoves(pieces, turn);
+
+                PrintPieces(pieces);
+
                 end++;
                 if (end == 2)
                 {
+                    gotoxy(0, 8);
                     return 0;
                 }
             }
 
-            PrintPieces(pieces);
 
             gotoxy(x, y);
         }
 
     } while (movement != Esc);
-    gotoxy(0, 8);
 
+    gotoxy(0, 8);
     return 0;
 }

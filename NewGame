@@ -53,7 +53,7 @@ void RotatePieces(char pieces[8][8], int j, int i)
 
         } while (pieces[x][y] == opponent && 0 <= x && x <= 7 && 0 <= y && y <= 7);
 
-        if (pieces[x][y] == turn && temp != 1)
+        if (pieces[x][y] == turn && temp != 1 && 0 <= x && x <= 7 && 0 <= y && y <= 7)
         {
             x -= row;
             y -= column;
@@ -120,7 +120,7 @@ void LegalMoves(char pieces[8][8], char turn)
 
                     } while (pieces[x][y] == opponent && 0 <= x && x <= 7 && 0 <= y && y <= 7);
 
-                    if (pieces[x][y] != turn && temp != 1)
+                    if (pieces[x][y] != turn && temp != 1 && 0 <= x && x <= 7 && 0 <= y && y <= 7)
                     {
                         pieces[x][y] = 'o';
                     }

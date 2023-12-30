@@ -312,9 +312,16 @@ int NewGame()
 
             LegalMoves(pieces, turn);
 
-            if (CheckTurn(pieces, turn))
+            int end = 0;
+            while (CheckTurn(pieces, turn))
             {
+                turn = (turn == 'B') ? 'W' : 'B';
                 LegalMoves(pieces, turn);
+                end++;
+                if (end == 2)
+                {
+                    return 0;
+                }
             }
 
             PrintPieces(pieces);

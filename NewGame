@@ -147,6 +147,21 @@ void LegalMoves(char pieces[8][8], char turn)
     }
 }
 
+int CheckTurn(char pieces[8][8], char turn)
+{
+    for (int i = 0; i < 8; i++)
+    {
+        for (int j = 0; j < 8; j++)
+        {
+            if (pieces[j][i] == 'o')
+            {
+                return 0;
+            }
+        }
+    }
+    return 1;
+}
+
 void PrintPieces(char pieces[8][8])
 {
     for (int i = 0; i < 8; i++)
@@ -296,6 +311,11 @@ int NewGame()
             RotatePieces(pieces, x, y);
 
             LegalMoves(pieces, turn);
+
+            if (CheckTurn(pieces, turn))
+            {
+                LegalMoves(pieces, turn);
+            }
 
             PrintPieces(pieces);
 

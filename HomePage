@@ -52,8 +52,12 @@ int HomePage()
               {
                      gotoxy1(1, --y);
               }
+              else if (movement == Esc)
+              {
+                     return 3;
+              }
 
-       } while (movement != '\r' && movement != Esc);
+       } while (movement != '\r');
        clear1();
 
        return y;

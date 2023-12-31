@@ -8,6 +8,15 @@
 #define Right 77
 #define Esc 27
 
+struct SCORE
+{
+    int Score;
+
+    int TotalScore;
+};
+
+typedef struct SCORE SCORE;
+
 void ScanM(char *name)
 {
     name--;
@@ -34,10 +43,13 @@ void gotoxy(double x, int y)
     SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
 }
 
-void RotatePieces(char pieces[8][8], int j, int i)
+int RotatePieces_Score(char pieces[8][8], int j, int i)
 {
+    int score = 0;
+
     char turn = pieces[j][i];
     char opponent = (turn == 'B') ? 'W' : 'B';
+
     int row = 1;
     int column = 1;
     for (int k = 0; k < 8; k++)
@@ -60,6 +72,7 @@ void RotatePieces(char pieces[8][8], int j, int i)
             do
             {
                 pieces[x][y] = turn;
+                score++;
                 x -= row;
                 y -= column;
 
@@ -83,6 +96,8 @@ void RotatePieces(char pieces[8][8], int j, int i)
             column++;
         }
     }
+
+    return score;
 }
 
 void LegalMoves(char pieces[8][8], char turn)
@@ -181,11 +196,11 @@ int CheckTurn(char pieces[8][8], char turn)
         {
             if (pieces[j][i] == 'o')
             {
-                return 0;
+                return 1;
             }
         }
     }
-    return 1;
+    return 0;
 }
 
 int NewGame()
@@ -224,6 +239,20 @@ int NewGame()
            "\t\t\t\t\t  +---+---+---+---+---+---+---+---+\n"
            "\t\t\t\t\t8 |   |   |   |   |   |   |   |   |\n"
            "\t\t\t\t\t  +---+---+---+---+---+---+---+---+\n");
+
+    //-------------------------------------------------------------------
+
+    SCORE players[2];
+    players[0].Score = 0;
+    players[0].Score += 2;
+
+    players[1].Score = 0;
+    players[1].Score += 2;
+
+    gotoxy(10, 0);
+    printf("Score B: %d", players[0].Score);
+    gotoxy(10, 1);
+    printf("Score W: %d", players[1].Score);
 
     char pieces[8][8] = {0};
 
@@ -308,29 +337,40 @@ int NewGame()
                 turn = 'B';
             }
 
-            RotatePieces(pieces, x, y);
+            int ScoreMove = RotatePieces_Score(pieces, x, y);
+            players[(turn == 'B') ? 1 : 0].Score += ScoreMove + 1;
+            players[(turn == 'B') ? 0 : 1].Score -= ScoreMove;
+
+            gotoxy(10, 0);
+            printf("Score B: %d", players[0].Score);
+            gotoxy(10, 1);
+            printf("Score W: %d", players[1].Score);
 
             LegalMoves(pieces, turn);
 
-            PrintPieces(pieces);
-
-            int end = 0;
-            while (CheckTurn(pieces, turn))
+            if (CheckTurn(pieces, turn))
             {
-                turn = (turn == 'B') ? 'W' : 'B';
-
-                LegalMoves(pieces, turn);
-
                 PrintPieces(pieces);
-
-                end++;
-                if (end == 2)
-                {
-                    gotoxy(0, 8);
-                    return 0;
-                }
             }
+            else
+            {
+                int end = 0;
+                do
+                {
+                    turn = (turn == 'B') ? 'W' : 'B';
 
+                    LegalMoves(pieces, turn);
+
+                    PrintPieces(pieces);
+
+                    end++;
+                    if (end == 2)
+                    {
+                        gotoxy(0, 8);
+                        return 0;
+                    }
+                } while (!CheckTurn(pieces, turn));
+            }
 
             gotoxy(x, y);
         }

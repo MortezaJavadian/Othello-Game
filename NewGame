@@ -342,9 +342,9 @@ int NewGame()
             players[(turn == 'B') ? 0 : 1].Score -= ScoreMove;
 
             gotoxy(10, 0);
-            printf("Score B: %d", players[0].Score);
+            printf("Score B: %d ", players[0].Score);
             gotoxy(10, 1);
-            printf("Score W: %d", players[1].Score);
+            printf("Score W: %d ", players[1].Score);
 
             LegalMoves(pieces, turn);
 

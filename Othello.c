@@ -12,7 +12,7 @@ int main()
         break;
 
     case 2:
-        printf("KONI");
+        printf("salam");
         break;
 
     case 3:

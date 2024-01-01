@@ -5,7 +5,7 @@
 
 #define Up 72
 #define Down 80
-#define Lelf 75
+#define Left 75
 #define Right 77
 #define Esc 27
 
@@ -17,19 +17,6 @@ struct SCORE
 };
 
 typedef struct SCORE SCORE;
-
-void ScanM(char *name)
-{
-    name--;
-    do
-    {
-        name++;
-        scanf("%c", name);
-
-    } while (*name != '\n');
-
-    *name = '\0';
-}
 
 void clear()
 {
@@ -204,21 +191,83 @@ int CheckTurn(char pieces[8][8], char turn)
     return 0;
 }
 
+void timer(double *minutes, double *seconds, int x, int y)
+{
+    do
+    {
+        gotoxy(12, 2);
+        printf("%.2d : %.2d", (int)(*minutes), (int)(*seconds));
+        gotoxy(x, y);
+        if ((*seconds) <= 0)
+        {
+            (*minutes)--;
+            (*seconds) += 60;
+        }
+
+        (*seconds) -= 0.05;
+        Sleep(40);
+    } while (!kbhit());
+}
+
 int NewGame()
 {
+    SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 10);
+
+    gotoxy(0, 1);
+    printf("1.Classic Mode");
+    gotoxy(4.5, 1);
+    printf("2.Timer Mode");
+
+    double x1 = 0;
+    gotoxy(x1, 1);
+    char movement1;
+    do
+    {
+        movement1 = getch();
+
+        if (movement1 == Right && x1 < 4.5)
+        {
+            gotoxy(x1 += 4.5, 1);
+        }
+        else if (movement1 == Left && 0 < x1)
+        {
+            gotoxy(x1 -= 4.5, 1);
+        }
+
+    } while (movement1 != '\r');
+
+    int MODE = x1;
+    double minutes1;
+    double seconds1;
+    if (MODE)
+    {
+        gotoxy(2.25, 2);
+        printf("Game Time: ");
+        scanf("%lf", &minutes1);
+        gotoxy(5.5, 2);
+        printf(" : ");
+        scanf("%lf", &seconds1);
+        getchar();
+    }
+    double minutes2 = minutes1;
+    double seconds2 = seconds1;
+
+    clear();
+
     char NamePlayer1[40];
     char NamePlayer2[40];
 
-    SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 10);
     gotoxy(1, 1);
     printf("Name Player One: \n");
     gotoxy(1, 2);
     printf("Name Player Two: ");
 
     gotoxy(5.25, 1);
-    ScanM(NamePlayer1);
+    scanf("%[^\n]", NamePlayer1);
+    getchar();
+
     gotoxy(5.25, 2);
-    ScanM(NamePlayer2);
+    scanf("%[^\n]", NamePlayer2);
     clear();
 
     printf("\n\n\n");
@@ -313,6 +362,13 @@ int NewGame()
     char movement;
     do
     {
+        if (MODE)
+        {
+            gotoxy(11, 2);
+            printf("%c : ", (turn == 'B') ? 'B' : 'C');
+            timer((turn == 'B') ? &minutes1 : &minutes2, (turn == 'B') ? &seconds1 : &seconds2, x, y);
+        }
+
         movement = getch();
         if (movement == Down && y < 7)
         {
@@ -326,9 +382,19 @@ int NewGame()
         {
             gotoxy(++x, y);
         }
-        else if (movement == Lelf && 0 < x)
+        else if (movement == Left && 0 < x)
         {
             gotoxy(--x, y);
+        }
+        else if (movement == '\r' && pieces[x][y] != 'o')
+        {
+            gotoxy(11, 4);
+            printf("You can't");
+            gotoxy(x, y);
+            Sleep(750);
+            gotoxy(11, 4);
+            printf("         ");
+            gotoxy(x, y);
         }
 
         //-------------------------------------------------------------------
@@ -353,16 +419,16 @@ int NewGame()
             players[(turn == 'B') ? 0 : 1].NumOfPieces -= ScoreMove;
 
             gotoxy(11, 0);
-            printf("B: %d ", players[0].NumOfPieces);
+            printf("B : %d ", players[0].NumOfPieces);
             gotoxy(11, 1);
-            printf("W: %d ", players[1].NumOfPieces);
+            printf("W : %d ", players[1].NumOfPieces);
 
             LegalMoves(pieces, turn);
 
             if (CheckTurn(pieces, turn))
             {
                 gotoxy(11, 3);
-                printf("Turn %c",turn);
+                printf("Turn %c", turn);
 
                 PrintPieces(pieces);
             }
@@ -373,7 +439,7 @@ int NewGame()
                 LegalMoves(pieces, turn);
 
                 gotoxy(11, 3);
-                printf("Turn %c",turn);
+                printf("Turn %c", turn);
 
                 PrintPieces(pieces);
 

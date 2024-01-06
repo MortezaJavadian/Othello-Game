@@ -5,19 +5,24 @@
 
 int main()
 {
-    switch (HomePage())
+    do
     {
-    case 1:
-        NewGame();
-        break;
+        switch (HomePage())
+        {
+        case 1:
+            NewGame();
+            break;
 
-    case 2:
-        printf("salam");
-        break;
+        case 2:
+            printf("salam");
+            break;
 
-    case 3:
-        return 0;
-    }
+        case 3:
+            break;
 
-    return 0;
+        case 4:
+            return 0;
+        }
+
+    } while (1);
 }

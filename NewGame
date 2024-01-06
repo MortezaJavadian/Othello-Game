@@ -305,8 +305,8 @@ void PasteInfo(info *GameInfo)
             }
             else
             {
-                GameInfo->minutes[i]--;
-                GameInfo->seconds[i] += 60;
+                GameInfo->copy[GameInfo->RequestBack]->minutes[i]--;
+                GameInfo->copy[GameInfo->RequestBack]->seconds[i] += 60;
 
                 DiffMinutes[i] = GameInfo->copy[GameInfo->RequestBack]->minutes[i] - GameInfo->minutes[i];
                 DiffSeconds[i] = GameInfo->copy[GameInfo->RequestBack]->seconds[i] - GameInfo->seconds[i];

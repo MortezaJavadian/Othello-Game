@@ -1,7 +1,4 @@
-#include <stdio.h>
-
-#include "HomePage"
-#include "NewGame"
+#include "GamePlay.h"
 
 int main()
 {

@@ -13,7 +13,7 @@
 
 struct GameInfo
 {
-    int TypeStruct;
+    char TypeStruct[7];
     char NamePlayer[2][40];
     char pieces[8][8];
     int x;
@@ -58,3 +58,7 @@ void PasteInfo(info *GameInfo, info copy[2]);
 int HomePage();
 
 int NewGame();
+
+int GameBackground(info GameInfo, info copy[2]);
+
+int UnfinishedGame();

@@ -2,6 +2,9 @@
 
 int main()
 {
+    char NameFile[] = "Unfinished.json";
+    FILE *file = fopen("Unfinished.json", "r");
+
     do
     {
         switch (HomePage())
@@ -11,7 +14,7 @@ int main()
             break;
 
         case 2:
-            printf("salam");
+            UnfinishedGame();
             break;
 
         case 3:

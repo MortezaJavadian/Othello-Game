@@ -17,7 +17,7 @@ int HomePage()
 
        SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 12);
        printf("\t\t\t\t\t\t\t    1.New Game\n"
-              "\t\t\t\t\t\t\t    2.Continued Games\n"
+              "\t\t\t\t\t\t\t    2.Unfinished Games\n"
               "\t\t\t\t\t\t\t    3.Score List\n"
               "\t\t\t\t\t\t\t    4.Exit");
 

@@ -3,6 +3,11 @@
         "windows.h": "c",
         "newgame": "c",
         "stdio.h": "c",
-        "homepage": "c"
-    }
+        "homepage": "c",
+        "cstdio": "c",
+        "type_traits": "c",
+        "gameplay.h": "c",
+        "secret.h": "c"
+    },
+    "cmake.sourceDirectory": "C:/Users/Morteza Javadian/Desktop/Projekt/json/json-c-master/apps"
 }

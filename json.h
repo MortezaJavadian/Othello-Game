@@ -1,3 +1,3 @@
-void ToJson(FILE *file, info GameInfo);
+void ToJson(FILE *file, info GameInfo, char FileName[]);
 
-void FormJson(FILE *file, info *GameInfo);
+void FromJson(FILE *file, info *GameInfo);

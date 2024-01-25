@@ -1,7 +1,30 @@
 #include "GamePlay.h"
 
-void ToJson(FILE *file, info GameInfo)
+void ToJson(FILE *file, info GameInfo, char NameFile[])
 {
+    fclose(file);
+    file = fopen(NameFile, "r+");
+    int counter_struct = 1;
+    char character = fgetc(file);
+    while (character != EOF)
+    {
+        character = fgetc(file);
+        if (character == '\"' || character == (char)(148))
+        {
+            character = fgetc(file);
+            if (character == 'S' || character == (char)(31))
+            {
+                character = fgetc(file);
+                if (character == 't' || character == (char)(250))
+                {
+                    counter_struct++;
+                }
+            }
+        }
+    }
+    fclose(file);
+    file = fopen(NameFile, "a+");
+
     fseek(file, 0, SEEK_END);
     if (ftell(file) == 0)
     {
@@ -10,14 +33,15 @@ void ToJson(FILE *file, info GameInfo)
     else
     {
         fclose(file);
-        file = fopen("save.json", "r+");
-        fseek(file, -3, SEEK_END);
+        file = fopen(NameFile, "r+");
+        fseek(file, -2, SEEK_END);
         fprintf(file, ",\n\n");
-
         fclose(file);
-        file = fopen("save.json", "a+");
+
+        file = fopen(NameFile, "a+");
     }
-    fprintf(file, "\"Type Of Struct_%d\":\n{\n", GameInfo.TypeStruct);
+    fprintf(file, "\"Struct_%d\":\n{\n", counter_struct);
+    fprintf(file, "\"Type Of Struct\": \"%s\",\n", GameInfo.TypeStruct);
     fprintf(file, "\"Name Player 1\": \"%s\", \"Name Player 2\": \"%s\",\n", GameInfo.NamePlayer[0], GameInfo.NamePlayer[1]);
     fprintf(file, "\"Number Of pieces 1\": \"%d\", \"Number Of pieces 2\": \"%d\",\n", GameInfo.NumOfPieces[0], GameInfo.NumOfPieces[1]);
     fprintf(file, "\"Score 1\": \"%d\", \"Score 2\": \"%d\",\n", GameInfo.score[0], GameInfo.score[1]);
@@ -45,8 +69,8 @@ void ToJson(FILE *file, info GameInfo)
         fprintf(file, "\"Seconds 1\": \"%lf\", \"Seconds 2\": \"%lf\",\n", GameInfo.seconds[0], GameInfo.seconds[1]);
         fprintf(file, "\"Request Back Player\": \"%d\",\n", GameInfo.RequestBack);
         fprintf(file, "\"Number Of Request 1\": \"%d\", \"Number Of Request 2\": \"%d\",\n", GameInfo.NumOfRequest[0], GameInfo.NumOfRequest[1]);
-        fprintf(file, "\"Temp Time 1\"=> \"Minutes1\": \"%lf\", \"Seconds1\": \"%lf\",\n", GameInfo.TempTime[0][0], GameInfo.TempTime[0][1]);
-        fprintf(file, "\"Temp Time 2\"=> \"Minutes2\": \"%lf\", \"Seconds2\": \"%lf\"\n}\n}", GameInfo.TempTime[1][0], GameInfo.TempTime[1][1]);
+        fprintf(file, "\"file Time 1\"=> \"Minutes1\": \"%lf\", \"Seconds1\": \"%lf\",\n", GameInfo.TempTime[0][0], GameInfo.TempTime[0][1]);
+        fprintf(file, "\"file Time 2\"=> \"Minutes2\": \"%lf\", \"Seconds2\": \"%lf\"\n}\n}", GameInfo.TempTime[1][0], GameInfo.TempTime[1][1]);
     }
     else
     {
@@ -56,7 +80,7 @@ void ToJson(FILE *file, info GameInfo)
 
 void FromJson(FILE *file, info *GameInfo)
 {
-    fscanf(file, "%*[^_]%*c%d%*c%*c", &GameInfo->TypeStruct);
+    fscanf(file, "%*[^:]%*c%*[^:]%*c%*c%*c%[^\"]", &GameInfo->TypeStruct);
     fscanf(file, "%*[^:]%*c%*c%*c%[^\"]", &GameInfo->NamePlayer[0]);
     fscanf(file, "%*[^:]%*c%*c%*c%[^\"]", &GameInfo->NamePlayer[1]);
 

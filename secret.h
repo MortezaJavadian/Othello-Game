@@ -1,3 +1,3 @@
-void ToSecret(FILE *file);
+void ToSecret(FILE *file, char FileName[]);
 
-void FromSecret(FILE *file);
+void FromSecret(FILE *file, char FileName[]);

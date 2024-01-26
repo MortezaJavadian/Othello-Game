@@ -1,4 +1,6 @@
 #include "GamePlay.h"
+#include "json.h"
+#include "secret.h"
 
 int NewGame()
 {
@@ -45,7 +47,7 @@ int NewGame()
         scanf("%d", &GameInfo.minutes[0]);
         GameInfo.minutes[1] = GameInfo.minutes[0];
 
-        if(GameInfo.minutes[0] < 10)
+        if (GameInfo.minutes[0] < 10)
         {
             gotoxy(5.25, 2);
         }
@@ -53,7 +55,7 @@ int NewGame()
         {
             gotoxy(5.5, 2);
         }
-        
+
         printf(" : ");
         scanf("%lf", &GameInfo.seconds[0]);
         GameInfo.seconds[1] = GameInfo.seconds[0];
@@ -125,7 +127,28 @@ int NewGame()
         CopyTime(&GameInfo);
     }
 
-    GameBackground(GameInfo, copy);
+    //-------------------------------------------------------------------
+
+    int mode = GameBackground(&GameInfo, copy);
+
+    if (mode == End)
+    {
+    }
+    else if (mode == Unfinished)
+    {
+        char NameFile[] = "Unfinished.json";
+
+        ToJson(GameInfo, NameFile);
+        if (GameInfo.MODE)
+        {
+            ToJson(copy[0], NameFile);
+            ToJson(copy[1], NameFile);
+        }
+        
+        FILE *SaveFile = fopen("Unfinished.json",  "r");
+        ToSecret(SaveFile, NameFile);
+        fclose(SaveFile);
+    }
 
     return 0;
 }

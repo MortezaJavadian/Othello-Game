@@ -252,6 +252,7 @@ void CopyInfo(info *GameInfo, info copy[2])
     copy[(GameInfo->turn == 'B') ? 0 : 1].y = GameInfo->y;
 
     copy[(GameInfo->turn == 'B') ? 0 : 1].turn = GameInfo->turn;
+    copy[(GameInfo->turn == 'B') ? 0 : 1].MODE = GameInfo->MODE;
 
     for (int i = 0; i < 2; i++)
     {
@@ -267,7 +268,7 @@ void CopyTime(info *GameInfo)
 {
     for (int i = 0; i < 2; i++)
     {
-        GameInfo->TempTime[i][0] = GameInfo->minutes[i];
+        GameInfo->TempTime[i][0] = (double)GameInfo->minutes[i];
         GameInfo->TempTime[i][1] = GameInfo->seconds[i];
     }
 }

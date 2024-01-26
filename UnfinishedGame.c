@@ -1,6 +1,6 @@
 #include "GamePlay.h"
-#include "secret.h"
 #include "json.h"
+#include "secret.h"
 
 int UnfinishedGame()
 {
@@ -56,7 +56,6 @@ int UnfinishedGame()
         }
         else if (movement == Esc)
         {
-            fclose(file);
             file = fopen(FileName, "r");
             ToSecret(file, FileName);
             fclose(file);
@@ -69,6 +68,7 @@ int UnfinishedGame()
     file = fopen(FileName, "r");
 
     info GameInfo;
+    info copy[2];
     int i = 0;
     while (i < TargetGame)
     {
@@ -80,15 +80,26 @@ int UnfinishedGame()
         i++;
     }
 
-    info copy[2];
-    FromJson(file, &copy[0]);
-    FromJson(file, &copy[1]);
+    if (GameInfo.MODE)
+    {
+        FromJson(file, &copy[0]);
+        FromJson(file, &copy[1]);
+    }
 
     fclose(file);
+
+    int mode = GameBackground(&GameInfo, copy);
+
+    if (mode == End)
+    {
+    }
+    else if (mode == Unfinished)
+    {
+        ChangeJson(GameInfo, copy, FileName, TargetGame);
+    }
+
     file = fopen(FileName, "r");
     ToSecret(file, FileName);
     fclose(file);
-
-    GameBackground(GameInfo, copy);
     return 0;
 }

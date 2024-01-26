@@ -11,6 +11,9 @@
 #define Esc 27
 #define Backspace 8
 
+#define End 0
+#define Unfinished 1
+
 struct GameInfo
 {
     char TypeStruct[7];
@@ -59,6 +62,6 @@ int HomePage();
 
 int NewGame();
 
-int GameBackground(info GameInfo, info copy[2]);
+int GameBackground(info *GameInfo, info copy[2]);
 
 int UnfinishedGame();

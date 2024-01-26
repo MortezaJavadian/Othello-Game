@@ -21,16 +21,34 @@ int GameBackground(info *GameInfo, info copy[2])
 
             if (GameInfo->minutes[0] <= 0 && GameInfo->seconds[0] <= 0)
             {
+                GameInfo->score[0] = 0;
                 gotoxy(11, 4);
                 printf("Winer is W ' %s '", GameInfo->NamePlayer[1]);
                 gotoxy(0, 8);
+
+                char movement1;
+                do
+                {
+                    movement1 = getch();
+
+                } while (movement1 != Esc);
+
                 return End;
             }
             else if (GameInfo->minutes[1] <= 0 && GameInfo->seconds[1] <= 0)
             {
+                GameInfo->score[1] = 0;
                 gotoxy(11, 4);
                 printf("Winer is B ' %s '", GameInfo->NamePlayer[0]);
                 gotoxy(0, 8);
+
+                char movement1;
+                do
+                {
+                    movement1 = getch();
+
+                } while (movement1 != Esc);
+
                 return End;
             }
         }
@@ -167,8 +185,9 @@ int GameBackground(info *GameInfo, info copy[2])
                     do
                     {
                         movement1 = getch();
+
                     } while (movement1 != Esc);
-                    
+
                     return End;
                 }
             }

@@ -18,6 +18,7 @@ int main()
             break;
 
         case 3:
+            Score();
             break;
 
         case 4:

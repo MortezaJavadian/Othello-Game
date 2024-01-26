@@ -82,6 +82,7 @@ void ToSecret(FILE *file, char NameFile[])
         character = fgetc(temp);
     }
 
+    fclose(file);
     fclose(temp);
     remove("temp.json");
 }
@@ -115,6 +116,7 @@ void FromSecret(FILE *file, char NameFile[])
         character = (int)fgetc(temp);
     }
 
+    fclose(file);
     fclose(temp);
     remove("temp.json");
 }

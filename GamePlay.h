@@ -65,3 +65,5 @@ int NewGame();
 int GameBackground(info *GameInfo, info copy[2]);
 
 int UnfinishedGame();
+
+void Score();

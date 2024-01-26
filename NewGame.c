@@ -133,6 +133,12 @@ int NewGame()
 
     if (mode == End)
     {
+        char name[] = "Score.json";
+        ToJson(GameInfo, name);
+
+        FILE *SaveFile = fopen(name,  "r");
+        ToSecret(SaveFile, name);
+        fclose(SaveFile);
     }
     else if (mode == Unfinished)
     {

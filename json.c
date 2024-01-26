@@ -8,13 +8,13 @@ void ToJson(info GameInfo, char FileName[])
     while (character != EOF)
     {
         character = fgetc(file);
-        if (character == '\"' || character == (char)(148))
+        if (character == '\"' || character == (char)(109))
         {
             character = fgetc(file);
-            if (character == 'S' || character == (char)(31))
+            if (character == 'S' || character == (char)(0))
             {
                 character = fgetc(file);
-                if (character == 't' || character == (char)(250))
+                if (character == 't' || character == (char)(99))
                 {
                     counter_struct++;
                 }
@@ -164,6 +164,68 @@ void ChangeJson(info GameInfo, info copy[2], char FileName[], int TargetGame)
     {
         ToJson(copy[0], FileName);
         ToJson(copy[1], FileName);
+    }
+
+    do
+    {
+        TempGame.TypeStruct[0] = 0;
+        FromJson(TempFile, &TempGame);
+        if (TempGame.TypeStruct[0] == 0)
+        {
+            break;
+        }
+
+        ToJson(TempGame, FileName);
+
+    } while (1);
+
+    fclose(file);
+    fclose(TempFile);
+    remove("temp.json");
+}
+
+void RemoveJson(char FileName[], int TargetGame)
+{
+    FILE *file = fopen(FileName, "r");
+    FILE *TempFile = fopen("temp.json", "w");
+
+    int character = (int)fgetc(file);
+    while (character != EOF)
+    {
+        fprintf(TempFile, "%c", (char)character);
+        character = (int)fgetc(file);
+    }
+    fclose(TempFile);
+    fclose(file);
+
+    file = fopen(FileName, "w");
+    TempFile = fopen("temp.json", "r");
+
+    info TempGame;
+    int i = 0;
+    while (i < TargetGame - 1)
+    {
+        FromJson(TempFile, &TempGame);
+        ToJson(TempGame, FileName);
+        if (strcmp(TempGame.TypeStruct, "main"))
+        {
+            continue;
+        }
+        i++;
+    }
+    if (TempGame.MODE && i != 0)
+    {
+        FromJson(TempFile, &TempGame);
+        ToJson(TempGame, FileName);
+        FromJson(TempFile, &TempGame);
+        ToJson(TempGame, FileName);
+    }
+
+    FromJson(TempFile, &TempGame);
+    if (TempGame.MODE)
+    {
+        FromJson(TempFile, &TempGame);
+        FromJson(TempFile, &TempGame);
     }
 
     do

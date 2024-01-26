@@ -92,6 +92,7 @@ int UnfinishedGame()
 
     if (mode == End)
     {
+        RemoveJson(FileName, TargetGame);
     }
     else if (mode == Unfinished)
     {

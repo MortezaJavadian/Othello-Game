@@ -1,7 +1,7 @@
 #include "GamePlay.h"
 
-#define a 4025211
-#define b 62
+#define a 3
+#define b 7
 
 void ToSecret(FILE *file, char NameFile[])
 {

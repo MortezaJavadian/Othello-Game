@@ -64,16 +64,52 @@ int NewGame()
 
     clear();
 
+    //-------------------------------------------------------------------
+
+    GameInfo.NamePlayer[0][0] = 0;
+    GameInfo.NamePlayer[1][0] = 0;
+
     gotoxy(1, 1);
     printf("Name Player One: ");
     gotoxy(1, 2);
     printf("Name Player Two: ");
 
-    gotoxy(5.25, 1);
-    gets_s(GameInfo.NamePlayer[0], 40);
+    do
+    {
+        gotoxy(5.25, 1);
+        gets_s(GameInfo.NamePlayer[0], 40);
 
-    gotoxy(5.25, 2);
-    gets_s(GameInfo.NamePlayer[1], 40);
+        if (GameInfo.NamePlayer[0][0] == 0)
+        {
+            gotoxy(1, 0);
+            printf("Your nmae can't be blank!!               ");
+        }
+
+    } while (GameInfo.NamePlayer[0][0] == 0);
+    gotoxy(1, 0);
+    printf("                                         ");
+
+    do
+    {
+        gotoxy(5.25, 2);
+        gets_s(GameInfo.NamePlayer[1], 40);
+
+        if (GameInfo.NamePlayer[1][0] == 0)
+        {
+            gotoxy(1, 0);
+            printf("Your nmae can't be blank!!               ");
+        }
+        else if(!strcmp(GameInfo.NamePlayer[0],GameInfo.NamePlayer[1]))
+        {
+            gotoxy(5.25, 2);
+            printf("                                       ");
+            gotoxy(1, 0);
+            printf("Your nmae can't be same with player one!!");
+        }
+
+    } while (GameInfo.NamePlayer[1][0] == 0 || !strcmp(GameInfo.NamePlayer[0],GameInfo.NamePlayer[1]));
+    gotoxy(1, 0);
+    printf("                                         ");
 
     //-------------------------------------------------------------------
 
@@ -136,7 +172,7 @@ int NewGame()
         char name[] = "Score.json";
         ToJson(GameInfo, name);
 
-        FILE *SaveFile = fopen(name,  "r");
+        FILE *SaveFile = fopen(name, "r");
         ToSecret(SaveFile, name);
         fclose(SaveFile);
     }
@@ -150,8 +186,8 @@ int NewGame()
             ToJson(copy[0], NameFile);
             ToJson(copy[1], NameFile);
         }
-        
-        FILE *SaveFile = fopen("Unfinished.json",  "r");
+
+        FILE *SaveFile = fopen("Unfinished.json", "r");
         ToSecret(SaveFile, NameFile);
         fclose(SaveFile);
     }

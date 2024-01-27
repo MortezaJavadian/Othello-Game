@@ -106,11 +106,20 @@ void Score()
         }
     }
 
-    printf("Score List\n");
-    printf("Nmae    Score\n");
+    gotoxy(2.5, -1.5);
+    printf("+--------------+");
+    gotoxy(2.5, -1);
+    printf("| Game Ranking |");
+    gotoxy(2.5, -0.5);
+    printf("+--------------+");
+    gotoxy(1, 0.5);
+    printf("Player Name\t\tScore");
     for (int i = 0; i < CounterPlayer; i++)
     {
-        printf("%s  %d\n", score[i].NamePlayer, score[i].TotalScore);
+        gotoxy(1, 1.5 + i / 2.0);
+        printf("%d.%s", i + 1, score[i].NamePlayer);
+        gotoxy(7.5, 1.5 + i / 2.0);
+        printf("%d", score[i].TotalScore);
     }
 
     char movement1;

@@ -75,7 +75,7 @@ int UnfinishedGame()
     gotoxy(1, 0.5);
 
     gotoxy(8, -1);
-    printf("Amount of Unfinished Game: %d",counter_game);
+    printf("Amount of Unfinished Game: %d", counter_game);
 
     double y = 0.5;
     int flat = 1;
@@ -101,6 +101,12 @@ int UnfinishedGame()
             x++;
             flat = 1;
         }
+        else if (movement == Down && y == 5.5 && x + 3 == counter_game)
+        {
+            x = 0;
+            y = 0.5;
+            flat = 1;
+        }
         else if (movement == Up && 0.5 < y)
         {
             gotoxy(2.5, y -= 2.5);
@@ -108,6 +114,12 @@ int UnfinishedGame()
         else if (movement == Up && 0.5 == y && 0 < x)
         {
             x--;
+            flat = 1;
+        }
+        else if (movement == Up && 0.5 == y && x == 0)
+        {
+            x = counter_game - 3;
+            y = 5.5;
             flat = 1;
         }
         else if (movement == Esc)

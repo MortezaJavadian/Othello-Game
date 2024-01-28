@@ -6,8 +6,23 @@ int GameBackground(info *GameInfo, info copy[2])
 
     //-------------------------------------------------------------------
 
+    if (GameInfo->MODE)
+    {
+        gotoxy(9, 5);
+        printf("Everyone wants to go back,");
+        gotoxy(9, 5.5);
+        printf("press the Backspace key.");
+    }
+
+    int FlatB_back = 0;
+    int FlatW_back = 0;
+    int FlatBack = 1;
+
+
+    //-------------------------------------------------------------------
+
     PrintBorder();
-    
+
     PrintBoard();
 
     PrintInfo(GameInfo);
@@ -85,37 +100,42 @@ int GameBackground(info *GameInfo, info copy[2])
 
         //-------------------------------------------------------------------
 
-        else if (GameInfo->MODE && (movement == Backspace) && (GameInfo->NumOfRequest[0] != 2 || GameInfo->NumOfRequest[1] != 2))
+        else if (GameInfo->MODE && (movement == Backspace) && (GameInfo->NumOfRequest[0] != 2 || GameInfo->NumOfRequest[1] != 2) && (FlatB_back || FlatW_back) && FlatBack)
         {
-            gotoxy(11, 5);
+            SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 2);
+            gotoxy(8.5, 5);
             printf("Who has requested the game back?");
-            gotoxy(11, 6);
+            gotoxy(9, 5.5);
+            printf("                        ");
+            gotoxy(10, 6);
             printf("1.B   2.W");
-            gotoxy(11, 6);
+            gotoxy(10, 6);
 
             char movement2;
-            double x2 = 11;
+            double x2 = 10;
             do
             {
                 movement2 = getch();
 
-                if (movement2 == Right && x2 < 12.5)
+                if (movement2 == Right && x2 < 11.5)
                 {
                     gotoxy(x2 += 1.5, 6);
                 }
-                else if (movement2 == Left && 11 < x2)
+                else if (movement2 == Left && 10 < x2)
                 {
                     gotoxy(x2 -= 1.5, 6);
                 }
 
-            } while (movement2 != '\r' || GameInfo->NumOfRequest[(x2 == 11) ? 0 : 1] == 2);
+            } while (movement2 != '\r' || GameInfo->NumOfRequest[(x2 == 10) ? 0 : 1] == 2 || ((x2 == 10) ? !FlatB_back : !FlatW_back));
 
-            gotoxy(11, 5);
+            gotoxy(8.5, 5);
             printf("                                ");
-            gotoxy(11, 6);
+            gotoxy(10, 6);
             printf("         ");
 
-            GameInfo->RequestBack = (x2 == 11) ? 0 : 1;
+            FlatBack = 0;
+
+            GameInfo->RequestBack = (x2 == 10) ? 0 : 1;
 
             GameInfo->NumOfRequest[GameInfo->RequestBack]++;
 
@@ -132,6 +152,8 @@ int GameBackground(info *GameInfo, info copy[2])
             {
                 if (GameInfo->MODE)
                 {
+                    FlatB_back = 1;
+                    FlatBack = 1;
                     CopyInfo(GameInfo, copy);
                 }
 
@@ -142,6 +164,8 @@ int GameBackground(info *GameInfo, info copy[2])
             {
                 if (GameInfo->MODE)
                 {
+                    FlatW_back = 1;
+                    FlatBack = 1;
                     CopyInfo(GameInfo, copy);
                 }
 

@@ -15,25 +15,25 @@ int NewGame()
     strcpy(copy[0].TypeStruct, "copy 1");
     strcpy(copy[1].TypeStruct, "copy 2");
 
-    gotoxy(0, 1);
+    gotoxy(2, 2);
     printf("1.Classic Mode");
-    gotoxy(4.5, 1);
+    gotoxy(6.5, 2);
     printf("2.Timer Mode");
 
-    GameInfo.MODE = 0;
-    gotoxy(0, 1);
+    GameInfo.MODE = 2;
+    gotoxy(2, 2);
     char movement;
     do
     {
         movement = getch();
 
-        if (movement == Right && GameInfo.MODE < 4.5)
+        if (movement == Right && GameInfo.MODE < 6.5)
         {
-            gotoxy(GameInfo.MODE += 4.5, 1);
+            gotoxy(GameInfo.MODE += 4.5, 2);
         }
-        else if (movement == Left && 0 < GameInfo.MODE)
+        else if (movement == Left && 2 < GameInfo.MODE)
         {
-            gotoxy(GameInfo.MODE -= 4.5, 1);
+            gotoxy(GameInfo.MODE -= 4.5, 2);
         }
         else if (movement == Esc)
         {
@@ -42,20 +42,22 @@ int NewGame()
 
     } while (movement != '\r');
 
+    GameInfo.MODE -= 2;
+
     if (GameInfo.MODE)
     {
-        gotoxy(2.25, 2);
+        gotoxy(4.25, 3);
         printf("Game Time: ");
         scanf("%d", &GameInfo.minutes[0]);
         GameInfo.minutes[1] = GameInfo.minutes[0];
 
         if (GameInfo.minutes[0] < 10)
         {
-            gotoxy(5.25, 2);
+            gotoxy(7.25, 3);
         }
         else
         {
-            gotoxy(5.5, 2);
+            gotoxy(7.5, 3);
         }
 
         printf(" : ");
@@ -72,46 +74,46 @@ int NewGame()
     GameInfo.NamePlayer[0][0] = 0;
     GameInfo.NamePlayer[1][0] = 0;
 
-    gotoxy(1, 1);
+    gotoxy(3, 2);
     printf("Name Player One: ");
-    gotoxy(1, 2);
+    gotoxy(3, 3);
     printf("Name Player Two: ");
 
     do
     {
-        gotoxy(5.25, 1);
+        gotoxy(7.25, 2);
         gets_s(GameInfo.NamePlayer[0], 40);
 
         if (GameInfo.NamePlayer[0][0] == 0)
         {
-            gotoxy(1, 0);
+            gotoxy(3, 1);
             printf("Your nmae can't be blank!!               ");
         }
 
     } while (GameInfo.NamePlayer[0][0] == 0);
-    gotoxy(1, 0);
+    gotoxy(3, 1);
     printf("                                         ");
 
     do
     {
-        gotoxy(5.25, 2);
+        gotoxy(7.25, 3);
         gets_s(GameInfo.NamePlayer[1], 40);
 
         if (GameInfo.NamePlayer[1][0] == 0)
         {
-            gotoxy(1, 0);
+            gotoxy(3, 1);
             printf("Your nmae can't be blank!!               ");
         }
         else if(!strcmp(GameInfo.NamePlayer[0],GameInfo.NamePlayer[1]))
         {
-            gotoxy(5.25, 2);
+            gotoxy(7.25, 3);
             printf("                                       ");
-            gotoxy(1, 0);
+            gotoxy(3, 1);
             printf("Your nmae can't be same with player one!!");
         }
 
     } while (GameInfo.NamePlayer[1][0] == 0 || !strcmp(GameInfo.NamePlayer[0],GameInfo.NamePlayer[1]));
-    gotoxy(1, 0);
+    gotoxy(3, 1);
     printf("                                         ");
 
     //-------------------------------------------------------------------

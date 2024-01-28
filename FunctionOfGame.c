@@ -214,6 +214,8 @@ void PrintInfo(info *GameInfo)
         }
     }
 
+    SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 1);
+
     gotoxy(11, -1);
     printf("Turn %c", GameInfo->turn);
 
@@ -230,6 +232,8 @@ void PrintInfo(info *GameInfo)
         gotoxy(11, 3);
         printf("W : %.2d : %.2d", GameInfo->minutes[1], (int)GameInfo->seconds[1]);
     }
+
+    SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 2);
 
     gotoxy(GameInfo->x, GameInfo->y);
 }
@@ -251,6 +255,7 @@ int CheckTurn(char pieces[8][8], char turn)
 
 void timer(info *GameInfo)
 {
+    SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 0);
     int turn = (GameInfo->turn == 'B') ? 0 : 1;
     do
     {
@@ -268,6 +273,8 @@ void timer(info *GameInfo)
         Sleep(40);
 
     } while (!kbhit() && (GameInfo->minutes[turn] > 0 || GameInfo->seconds[turn] > 0));
+    
+    SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 8);
 }
 
 void CopyInfo(info *GameInfo, info copy[2])

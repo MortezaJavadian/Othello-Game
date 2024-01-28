@@ -35,9 +35,17 @@ int HomePage()
               {
                      gotoxy(4, y += 0.5);
               }
+              else if (movement == Down && y == 4.5)
+              {
+                     gotoxy(4, y -= 1.5);
+              }
               else if (movement == Up && 3 < y)
               {
                      gotoxy(4, y -= 0.5);
+              }
+              else if (movement == Up && 3 == y)
+              {
+                     gotoxy(4, y += 1.5);
               }
               else if (movement == Esc)
               {

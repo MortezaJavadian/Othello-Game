@@ -255,7 +255,7 @@ int CheckTurn(char pieces[8][8], char turn)
 
 void timer(info *GameInfo)
 {
-    SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 0);
+    SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 1);
     int turn = (GameInfo->turn == 'B') ? 0 : 1;
     do
     {
@@ -274,7 +274,7 @@ void timer(info *GameInfo)
 
     } while (!kbhit() && (GameInfo->minutes[turn] > 0 || GameInfo->seconds[turn] > 0));
     
-    SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 8);
+    SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 2);
 }
 
 void CopyInfo(info *GameInfo, info copy[2])

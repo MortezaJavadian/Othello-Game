@@ -2,10 +2,10 @@
 #include "json.h"
 #include "secret.h"
 
-void PrintGame(info *ListGame, int x)
+void PrintGame(info *ListGame, int x, int max)
 {
     double j = 0;
-    for (int i = x; i < x + 3; i++, j++)
+    for (int i = x; i < x + 3 && i < max; i++, j++)
     {
         SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 2);
 
@@ -18,7 +18,7 @@ void PrintGame(info *ListGame, int x)
         gotoxy(2.5, 2 * (1.25 * j + 0.25) + 1.5);
         printf("    Score %s: %d             ", ListGame[i].NamePlayer[1], ListGame[i].score[1]);
 
-        if (i != x + 2)
+        if (i < x + 2 && i < max - 1)
         {
             SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 12);
             gotoxy(1.5, 2 * (1.25 * j + 0.25) + 2);
@@ -85,14 +85,14 @@ int UnfinishedGame()
     {
         if (flat)
         {
-            PrintGame(ListGame, x);
+            PrintGame(ListGame, x, counter_game);
             flat = 0;
         }
 
         gotoxy(2.5, y);
         movement = getch();
 
-        if (movement == Down && y < 5.5)
+        if (movement == Down && y < 5.5 && y < 2 * (1.25 * counter_game - 1))
         {
             gotoxy(2.5, y += 2.5);
         }
@@ -107,20 +107,28 @@ int UnfinishedGame()
             y = 0.5;
             flat = 1;
         }
+        else if (movement == Down && counter_game <= 3 && (y + 2) / 2.5 + x == counter_game)
+        {
+            y = 0.5;
+        }
         else if (movement == Up && 0.5 < y)
         {
             gotoxy(2.5, y -= 2.5);
         }
-        else if (movement == Up && 0.5 == y && 0 < x)
+        else if (movement == Up && y == 0.5 && 0 < x)
         {
             x--;
             flat = 1;
         }
-        else if (movement == Up && 0.5 == y && x == 0)
+        else if (movement == Up && y == 0.5 && x == 0 && counter_game > 3)
         {
             x = counter_game - 3;
             y = 5.5;
             flat = 1;
+        }
+        else if (movement == Up && y == 0.5 && counter_game <= 3)
+        { 
+            y = 2 * (1.25 * counter_game - 1);
         }
         else if (movement == Esc)
         {
@@ -132,7 +140,7 @@ int UnfinishedGame()
 
     } while (movement != '\r');
 
-    int TargetGame = (y + 3.5) / 2 + x;
+    int TargetGame = (y + 2) / 2.5 + x;
     file = fopen(FileName, "r");
 
     info GameInfo;

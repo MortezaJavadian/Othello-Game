@@ -4,6 +4,8 @@
 
 int NewGame()
 {
+    PrintBorder();
+    
     SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 10);
 
     info GameInfo;
@@ -61,8 +63,9 @@ int NewGame()
         GameInfo.seconds[1] = GameInfo.seconds[0];
         getchar();
     }
+    //-------------------------------------------------------------------
 
-    clear();
+    PrintBorder();
 
     //-------------------------------------------------------------------
 

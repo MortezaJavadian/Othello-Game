@@ -105,6 +105,8 @@ void Score()
             }
         }
     }
+    
+    PrintBorder();
 
     gotoxy(2.5, -1.5);
     printf("+--------------+");

@@ -38,6 +38,8 @@ void clear();
 
 void gotoxy(double x, double y);
 
+void PrintBorder();
+
 void PrintBoard();
 
 int RotatePieces_Score(char pieces[8][8], int j, int i);

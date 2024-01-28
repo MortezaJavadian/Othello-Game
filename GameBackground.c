@@ -6,6 +6,8 @@ int GameBackground(info *GameInfo, info copy[2])
 
     //-------------------------------------------------------------------
 
+    PrintBorder();
+    
     PrintBoard();
 
     PrintInfo(GameInfo);

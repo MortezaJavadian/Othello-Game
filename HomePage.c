@@ -1,9 +1,12 @@
 #include "GamePlay.h"
 
+
 int HomePage()
 {
        clear();
        system("title Othello");
+
+       PrintBorder();
 
        SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 2);
        printf("\n\n");
@@ -21,18 +24,18 @@ int HomePage()
               "\t\t\t\t\t\t\t    3.Score List\n"
               "\t\t\t\t\t\t\t    4.Exit");
 
-       double y = 2.5;
+       double y = 3;
        gotoxy(4, y);
        char movement;
        do
        {
               movement = getch();
 
-              if (movement == Down && y < 4)
+              if (movement == Down && y < 4.5)
               {
                      gotoxy(4, y += 0.5);
               }
-              else if (movement == Up && 2.5 < y)
+              else if (movement == Up && 3 < y)
               {
                      gotoxy(4, y -= 0.5);
               }
@@ -45,5 +48,5 @@ int HomePage()
        } while (movement != '\r');
        clear();
 
-       return 2 * y - 4;
+       return 2 * y - 5;
 }

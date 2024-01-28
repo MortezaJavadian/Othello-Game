@@ -9,15 +9,47 @@ void gotoxy(double x, double y)
 {
     COORD coord;
     coord.X = 4 * x + 44;
-    coord.Y = 2 * y + 5;
+    coord.Y = 2 * y + 4;
     SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
+}
+
+void PrintBorder()
+{
+    clear();
+
+    SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 11);
+
+    printf("\t\t\t+--------------------------------------------------------------------------------------+\n");
+    printf("\t\t\t|                                                                                      |\n");
+    printf("\t\t\t|                                                                                      |\n");
+    printf("\t\t\t|                                                                                      |\n");
+    printf("\t\t\t|                                                                                      |\n");
+    printf("\t\t\t|                                                                                      |\n");
+    printf("\t\t\t|                                                                                      |\n");
+    printf("\t\t\t|                                                                                      |\n");
+    printf("\t\t\t|                                                                                      |\n");
+    printf("\t\t\t|                                                                                      |\n");
+    printf("\t\t\t|                                                                                      |\n");
+    printf("\t\t\t|                                                                                      |\n");
+    printf("\t\t\t|                                                                                      |\n");
+    printf("\t\t\t|                                                                                      |\n");
+    printf("\t\t\t|                                                                                      |\n");
+    printf("\t\t\t|                                                                                      |\n");
+    printf("\t\t\t|                                                                                      |\n");
+    printf("\t\t\t|                                                                                      |\n");
+    printf("\t\t\t|                                                                                      |\n");
+    printf("\t\t\t|                                                                                      |\n");
+    printf("\t\t\t|                                                                                      |\n");
+    printf("\t\t\t+--------------------------------------------------------------------------------------+\n");
+
+    SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 10);
+
+    gotoxy(-11, -2);
 }
 
 void PrintBoard()
 {
-    clear();
-
-    printf("\n\n\n");
+    printf("\n\n");
     printf("\t\t\t\t\t    A   B   C   D   E   F   G   H  \n"
            "\t\t\t\t\t  +---+---+---+---+---+---+---+---+\n"
            "\t\t\t\t\t1 |   |   |   |   |   |   |   |   |\n"

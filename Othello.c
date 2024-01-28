@@ -2,9 +2,6 @@
 
 int main()
 {
-    char NameFile[] = "Unfinished.json";
-    FILE *file = fopen("Unfinished.json", "r");
-
     do
     {
         switch (HomePage())
